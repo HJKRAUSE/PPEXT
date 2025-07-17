@@ -1,0 +1,64 @@
+// PPEXT.idl : IDL source for PPEXT
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (PPEXT.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(a817e7a2-43fa-11d0-9e44-00aa00b6770a),
+	dual,
+	pointer_default(unique)
+]
+interface IComponentRegistrar : IDispatch
+{
+	[id(1)]	HRESULT Attach([in] BSTR bstrPath);
+	[id(2)]	HRESULT RegisterAll();
+	[id(3)]	HRESULT UnregisterAll();
+	[id(4)]	HRESULT GetComponents([out] SAFEARRAY(BSTR)* pbstrCLSIDs, [out] SAFEARRAY(BSTR)* pbstrDescriptions);
+	[id(5)]	HRESULT RegisterComponent([in] BSTR bstrCLSID);
+	[id(6)] HRESULT UnregisterComponent([in] BSTR bstrCLSID);
+};
+
+[
+	object,
+	uuid(f9d2a646-1c99-4e1f-af30-6d3d0e49b166),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IInfo : IDispatch
+{
+	[id(1)] HRESULT Version([out, retval] BSTR* pVal);
+	[id(2)] HRESULT Name([out, retval] BSTR* pVal);
+	[id(3)] HRESULT Author([out, retval] BSTR* pVal);
+	[id(4)] HRESULT Description([out, retval] BSTR* pVal);
+};
+[
+	uuid(f2a46a69-3330-45e3-8ff4-934516da1820),
+	version(1.0),
+	custom(a817e7a1-43fa-11d0-9e44-00aa00b6770a,"{90b81030-b452-40ea-8c13-954e09389fc9}")
+]
+library PPEXTLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(90b81030-b452-40ea-8c13-954e09389fc9)
+	]
+	coclass CompReg
+	{
+		[default] interface IComponentRegistrar;
+	};
+	[
+		uuid(9a7023c3-acd6-4a24-a02b-4c75c26f19c0)
+	]
+	coclass Info
+	{
+		[default] interface IInfo;
+	};
+};
+
+import "shobjidl.idl";
